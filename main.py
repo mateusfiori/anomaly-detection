@@ -26,7 +26,7 @@ def generateJsonResult(anomalies, timeseriesDict):
             'value': timeseriesDict[str(anomaly[0])],
             'anomaly_score': anomaly[1]
         })
-    # pprint.PrettyPrinter(indent=3).pprint(result)
+    pprint.PrettyPrinter(indent=3).pprint(result)
     return result
 
 timeseriesDict = parseTs(pd.read_csv('./data/data2.csv').values)

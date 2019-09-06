@@ -2,11 +2,12 @@ from luminol.anomaly_detector import AnomalyDetector
 from datetime import datetime
 import pandas as pd
 import pprint
+import dateutil.parser
 
 def parseTs(dataArray): 
     dataDict = dict()
     for i in dataArray:
-        dataDict[datetime.strptime(i[0], '%Y-%m-%d %H:%M:%S.%f').strftime('%s')] = i[1]
+        dataDict[datetime.strptime(str(dateutil.parser.parse(i[0])), '%Y-%m-%d %H:%M:%S').strftime('%s')] = i[1]
     return dataDict 
 
 def formatAnomalies(anomalies):
@@ -28,6 +29,6 @@ def generateJsonResult(anomalies, timeseriesDict):
     # pprint.PrettyPrinter(indent=3).pprint(result)
     return result
 
-timeseriesDict = parseTs(pd.read_csv('./data/data.csv').values)
+timeseriesDict = parseTs(pd.read_csv('./data/data2.csv').values)
 verboseResult(formatAnomalies(AnomalyDetector(timeseriesDict).get_anomalies()), timeseriesDict)
 generateJsonResult(formatAnomalies(AnomalyDetector(timeseriesDict).get_anomalies()), timeseriesDict)
